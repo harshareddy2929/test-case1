@@ -1,0 +1,23 @@
+stages:
+  - lint
+  - test
+  - scan
+  - deploy
+
+sast_scan:
+  stage: scan
+  script:
+    - sonar-scanner
+  allow_failure: false
+
+dependency_scan:
+  stage: scan
+  script:
+    - snyk test
+  allow_failure: false
+
+container_scan:
+  stage: scan
+  script:
+    - trivy image myapp:latest
+  allow_failure: false
